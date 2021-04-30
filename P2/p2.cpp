@@ -8,6 +8,12 @@ struct Alumno {
     char apellidos[20];
     char carrera[15];
 
+    int ciclo;
+    float mensualidad;
+    int nextDel;
+
+    void setNextdel(int next_del_){ nextDel = next_del_;}
+
     void print(){
         printCodigo();
         printNombre();
@@ -41,41 +47,40 @@ struct Alumno {
     }
 };
 
-class FixedRecord {
+class Record {
 private:
     std::vector<Alumno> recordVec;
     std::string fileName;
+    
 
 public:
-    FixedRecord(std::string nombreArchivo):fileName(nombreArchivo){
-        std::ifstream file;
-        std::string line;
-        Alumno* alumn;
-        int i;
-        file.open(nombreArchivo);
-        while(getline(file,line)){
-            alumn = new Alumno;
-            i = 0;
-            while(i < 5){
-                alumn->codigo[i] = line[i];
-                i++;
-            }
-            while(i < 16){
-                alumn->nombre[i-5] = line[i];
-                i++;
-            }
-            while(i < 36){
-                alumn->apellidos[i-16] = line[i];
-                i++;
-            }
-            while(i <51){
-                alumn->carrera[i-36] = line[i];
-                i++;
-            }
-            add(*alumn);
-        }
-        file.close();
+    Record(std::string nombreArchivo):fileName(nombreArchivo){
     }
+    void delete_(int entry_number)
+    {
+        std::fstream file_obj;
+        Alumno alumno;
+        file_obj.open(fileName, std::ios::in | std::ios::out | std::ios::binary);
+        if (file_obj.is_open())
+        {   
+            int pointer;
+            file_obj.read((char *) &pointer, sizeof(int));
+
+            file_obj.seekg(entry_number*sizeof(Alumno)+sizeof(int));
+            file_obj.read((char *) &alumno, sizeof(Alumno) );
+
+            alumno.setNextdel(pointer);
+
+            file_obj.seekg(entry_number * sizeof(Alumno)+ sizeof(int));
+            file_obj.write((char *) &alumno, sizeof(Alumno));   
+
+            file_obj.seekg(0,std::ios::beg);
+            file_obj.write((char *) &entry_number, sizeof(int));
+
+            file_obj.close();
+        }
+    }
+    
 
     std::vector<Alumno> load(){
         for(auto it = recordVec.begin(); it != recordVec.end(); it++){
@@ -94,7 +99,7 @@ public:
 };
 
 int main() {
-    auto FR = FixedRecord("datos1.txt");
+    auto FR = Record("datos2.txt");
     FR.load();
     std::cout<<"\nRegistro [9]:"<<std::endl;
     FR.readRecord(2).print();
