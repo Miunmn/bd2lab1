@@ -1,4 +1,11 @@
-Nombre|Apellidos|Carrera|Mensualidad
-Howard|Paredes Zegarra|Computacion|1500.00 
-Penny|Vargas Cordero|Industrial|2550.50
-Sheldon|Cooper Quizpe|Mecatronica|1850.00
+11111 Howard     Paredes,Zegarra     Computacion    4    1500.00
+22222 Penny      Vargas,Cordero      Industrial     5    2550.50
+33333 Sheldon    Cooper,Quizpe       Mecatronica    6    1850.00
+44444 Esteban    Principe,Ventosilla Computacion    5    1500.00
+55555 Esteban    Villacorta,Garcia   Computacion    5    1500.00
+66666 Claudia    Noche,Dias          Computacion    5    4000.00
+77777 Jose       Fiestas,Equisde     Industrial     9    2000.00
+
+
+88888
+99999

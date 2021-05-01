@@ -4,45 +4,26 @@
 
 using namespace std;
 
-class Alumno {
+class Record {
 private:
-    //char codigo[5];
-    int codigo;
-    char nombre[11];
-    char apellidos[20];    
-    char carrera[15];//string -> tamanio variable
-    
+    char nombre[30];    
+    char carrera[20];//string -> tamanio variable
     int ciclo;
-    float mensualidad;
 
 public:
     void setData() {
-        cout<< "Codigo: \n";
-        cin>> codigo;
-
-        cout << "Nombre:\n";
+        cout << "Alumno:";
         cin >> nombre;
-
-        cout<< "Apellidos: \n";
-        cin>>apellidos;
-
-        cout << "Carrera: \n";
+        cout << "Carrera: ";
         cin >> carrera;
-
-        cout << "Ciclo: \n";
+        cout << "Ciclo: ";
         cin >> ciclo;
-
-        cout<< "Mensualidad: \n";
-        cin>>mensualidad;
     }
 
     void showData() {
-        cout<<"\nCodigo: "<<codigo;
         cout << "\nNombre: " << nombre;
-        cout<< "\nApellidos: "<< apellidos;
         cout << "\nCarrera: " << carrera;
         cout << "\nCiclo : " << ciclo;
-        cout<< "\nMensualidad: "<< mensualidad;
     }
 };
 
@@ -58,7 +39,7 @@ public:
     /*
     * function to write in a binary file.
     */
-    void writeRecord(Alumno obj) {
+    void writeRecord(Record obj) {
         ofstream outFile;
         outFile.open(fileName, ios::binary | ios::app);        
         outFile.write((char *) &obj, sizeof(obj));
@@ -72,7 +53,7 @@ public:
         ifstream inFile;
         inFile.open(fileName, ios::binary);
         //read the records
-        Alumno obj;
+        Record obj;
         while (inFile.read((char *) &obj, sizeof(obj))) {
             obj.showData();        	
         }
@@ -82,7 +63,7 @@ public:
     /*
     * function to insert a record
     */
-    void insertRecord(Alumno  obj, int pos) {
+    void insertRecord(Record  obj, int pos) {
         fstream outFile;
         outFile.open(this->fileName, ios::out | ios::binary);
         if (outFile.is_open()) {
@@ -99,40 +80,10 @@ public:
         if (inFile.is_open()) {
             inFile.seekg(0, ios::end);
             long bytes = inFile.tellg();
-            numRecords = bytes / sizeof(Alumno);
+            numRecords = bytes / sizeof(Record);
             inFile.close();
         } else cout << "Could not open the file.\n";
         return numRecords;
     }
 
-    Alumno readRecord(int pos)
-    {
-        fstream inFile;
-        inFile.open(this->fileName, ios::in | ios::binary);
-        Alumno obj;
-
-        if(inFile.is_open())
-        {
-            inFile.seekg(pos * sizeof(Alumno), ios::beg);
-            inFile.read((char *) &obj, sizeof(obj));
-            obj.showData();
-            inFile.close();
-        }
-        return obj;
-    }
-
-
 };
-
-int main() {
-    auto FR = FixedRecordFile("datos2.muerelab");
-    for (int i = 0 ;i<7 ; i++)
-    {
-    Alumno alumno1;
-    alumno1.setData();
-    FR.writeRecord(alumno1);
-    }
-    std::cout<<"\n\n\n";
-    Alumno obj = FR.readRecord(0); 
-    return 0;
-}
