@@ -1,8 +1,8 @@
-#include"FixedRecord.h"
+#include"VariableRecord.h"
 
 
 int main() {
-	auto FR = FixedRecord("datos1.txt");
+	auto FR = VariableRecord("datos1.txt");
 	FR.load();
 	int searchTarget = 3;
 	std::cout << "\nRegistro [" << searchTarget << "]:" << std::endl;

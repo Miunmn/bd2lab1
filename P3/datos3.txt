@@ -1,0 +1,11 @@
+Nombre|Apellidos|Carrera|Mensualidad
+Carry|Brijesh|Industrial|728.20
+Hesiod|Madhu|Bioingenieria|224.23
+Maristela|Germain|Civil|340.47
+Sadiq|Kathy|Mecatronica|396.68
+Rosalina|Proinsias|Industrial|565.97
+Metody|Hilda|Computacion|788.48
+Sunshine|Cyrille|Energia|978.74
+Onesiphorus|Rupa|Civil|843.46
+Truus|Orabela|Computacion|986.20
+Eddy|Gudrun|Mecatronica|735.61
