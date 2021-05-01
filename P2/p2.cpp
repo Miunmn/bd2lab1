@@ -4,16 +4,18 @@
 
 using namespace std;
 
-class Alumno {
+class Alumno
+{
 private:
     //char codigo[5];
     int codigo;
     char nombre[11];
     char apellidos[20];    
-    char carrera[15];//string -> tamanio variable
+    char carrera[15];
     
     int ciclo;
     float mensualidad;
+    int nextDel;
 
 public:
     void setData() {
@@ -46,7 +48,8 @@ public:
     }
 };
 
-class FixedRecordFile {
+class FixedRecordFile
+{
 private:
     string fileName;    
 
@@ -113,26 +116,27 @@ public:
 
         if(inFile.is_open())
         {
+            //moverse hasta la posicion del alumno
             inFile.seekg(pos * sizeof(Alumno), ios::beg);
+            //leer el alumno
             inFile.read((char *) &obj, sizeof(obj));
-            obj.showData();
+            //obj.showData();
             inFile.close();
         }
         return obj;
     }
-
-
 };
 
 int main() {
     auto FR = FixedRecordFile("datos2.muerelab");
     for (int i = 0 ;i<7 ; i++)
     {
-    Alumno alumno1;
-    alumno1.setData();
-    FR.writeRecord(alumno1);
+        Alumno alumno1;
+        alumno1.setData();
+        FR.writeRecord(alumno1);
     }
     std::cout<<"\n\n\n";
     Alumno obj = FR.readRecord(0); 
+    obj.showData();
     return 0;
 }
