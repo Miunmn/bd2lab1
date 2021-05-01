@@ -84,22 +84,16 @@ public:
         inFile.open(fileName, ios::binary);
         //read the records
         Alumno obj;
-        int i = 1;
-        //auto alumno = readRecord(0);
-        //int iterator_delete = alumno.nextDel;
+        int i = 0;
         while (inFile.read((char *) &obj, sizeof(obj)))
         {
-            obj.showData(); 
-            /*
+            auto alumno = readRecord(0);
+            int iterator_delete = alumno.nextDel;
             if( i== -1 || i!=iterator_delete)
             {
                 obj.showData(); 
             }
-            else
-            {
-                iterator_delete = obj.nextDel;
-            }
-            i++;*/
+            i++;
         }
         inFile.close();
     }
@@ -170,16 +164,13 @@ public:
         int i = 0;
         while(iterator_delete != -1)
         {
-            cout<<"\neeeeeeeeeeeeeeeeeeeee"<<endl;
             alumno = readRecord(iterator_delete);
             iterator_delete = alumno.nextDel;
             i++;
         }
         alumno.nextDel = pos;
+        //change_next_del_bin(i,pos);
         insertRecord(alumno,i);
-        cout<<"\n\n\n";
-        scanAll();
-        cout<<"\n\n\n";
     }
 };
 
@@ -236,32 +227,18 @@ int main() {
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     FR.scanAll();
     cout<<endl<<endl<<endl;
-    cout<<"==================FR.delete_(2)==============="<<endl<<endl<<endl;
-    FR.delete_(2);
-    cout<<endl<<endl<<endl;
     cout<<"==================FR.delete_(4)==============="<<endl<<endl<<endl;
     FR.delete_(4);
     cout<<endl<<endl<<endl;
-    cout<<"==================FR.delete_(5)==============="<<endl<<endl<<endl;
-    FR.delete_(5);
+    cout<<"==================FR.delete_(2)==============="<<endl<<endl<<endl;
+    FR.delete_(2);
+    cout<<endl<<endl<<endl;
+    cout<<"==================FR.delete_(6)==============="<<endl<<endl<<endl;
+    FR.delete_(6);
     cout<<endl<<endl<<endl;
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     cout<<"FR.size(): "<<FR.size();
-    //FR.scanAll();
+    FR.scanAll();
     cout<<endl<<endl<<endl;
- /* 
-    for (int i = 0 ;i<8 ; i++)
-    {
-        Alumno alumno1;
-        alumno1.setData();
-        FR.writeRecord(alumno1);
-        std::cout<<"\n\n\n\n";
-    }*/
-    //FR.scanAll();
-    /*
-    Alumno obj = FR.readRecord(0); 
-    std::cout<<"\n\n\n\n";
-    obj.showData();
-    */
     return 0;
 }
