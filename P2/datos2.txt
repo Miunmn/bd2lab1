@@ -1,14 +1,8 @@
-00000 ------     ---------------     -----------    -    ------- 6
-11111 Howard     Paredes,Zegarra     Computacion    4    1500.00 -1
-22222 Penny      Vargas,Cordero      Industrial     5    2550.50 -1
-33333 Sheldon    Cooper,Quizpe       Mecatronica    6    1850.00 -1
-44444 Esteban    Principe,Ventosilla Computacion    5    1500.00 -1
-55555 Esteban    Villacorta,Garcia   Computacion    5    1500.00 -1
-00000 ------     ---------------     -----------    -    ------- -1
-77777 Jose       Fiestas,Equisde     Industrial     9    2000.00 -1
-
-
-66666 Claudia    Noche,Dias          Computacion    5    4000.00 -1
-
-88888
-99999
+11111aaaaaa     aaaaaaaaaaaaaaa     aaaaaaaaaaa    10000000-1
+22222Howard     Paredes,Zegarra     Computacion    41500.00-1
+33333Penny      Vargas,Cordero      Industrial     52550.50-1
+44444Sheldon    Cooper,Quizpe       Mecatronica    61850.00-1
+55555Esteban    Principe,Ventosilla Computacion    51500.00-1
+66666Esteban    Villacorta,Garcia   Computacion    51500.00-1
+77777Diego      Carrazco,Sanchez    Energia        51800.00-1
+88888Jose       Fiestas,Equisde     Industrial     92000.00-1
