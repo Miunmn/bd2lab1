@@ -87,11 +87,13 @@ public:
         int i = 0;
         while (inFile.read((char *) &obj, sizeof(obj)))
         {
-            if(obj.nextDel==-1)
+            auto alumno = readRecord(0);
+            int iterator_delete = alumno.nextDel;
+            if( i== -1 || i!=iterator_delete)
             {
-                cout<<"\n\nAlumno: "<<i;i++;
-                obj.showData();  
+                obj.showData(); 
             }
+            i++;
         }
         inFile.close();
     }
@@ -103,7 +105,7 @@ public:
     {
         fstream outFile;
         cout<<"size(): "<<size()<<endl;
-        outFile.open(this->fileName, ios::out | ios::binary);
+        outFile.open(this->fileName,ios::binary|ios::out|ios::in);
         if (outFile.is_open()) {
             outFile.seekp(pos * sizeof(obj), ios::beg);
             outFile.write((char *) &obj, sizeof(obj));
@@ -225,14 +227,14 @@ int main() {
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     FR.scanAll();
     cout<<endl<<endl<<endl;
-   /* cout<<"==================FR.delete_(4)==============="<<endl<<endl<<endl;
+    cout<<"==================FR.delete_(4)==============="<<endl<<endl<<endl;
     FR.delete_(4);
     cout<<endl<<endl<<endl;
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     cout<<"FR.size(): "<<FR.size();
     FR.scanAll();
     cout<<endl<<endl<<endl;
-
+ /* 
     for (int i = 0 ;i<8 ; i++)
     {
         Alumno alumno1;
