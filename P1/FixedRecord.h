@@ -61,17 +61,20 @@ public:
 		Alumno* alumn;
 		int i;
 		file.open(nombreArchivo);
-		while (file) {
-			alumn = new Alumno;
-			file.read(alumn->codigo, 5);
-			file.read(alumn->nombre, 11);
-			file.read(alumn->apellidos, 20);
-			file.read(alumn->carrera, 15);
-			file.get();
-			file.get();
-			add(*alumn);
+		if (file.is_open()) {
+			while (file) {
+				alumn = new Alumno;
+				file.read(alumn->codigo, 5);
+				file.read(alumn->nombre, 11);
+				file.read(alumn->apellidos, 20);
+				file.read(alumn->carrera, 15);
+				file.get();
+				add(*alumn);
+			}
+			file.close();
 		}
-		file.close();
+		else std::cout << "No se pudo abrir el archivo.";
+		
 	}
 
 	std::vector<Alumno> load() {

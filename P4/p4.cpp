@@ -7,18 +7,13 @@
 
 using namespace std;
 
-class Alumno
+class Matricula
 {
 public:
-    char codigo[5];
-    //int codigo;
-    char nombre[11];
-    char apellidos[20];    
-    char carrera[15];
-    
-    int ciclo;
-    float mensualidad;
-    int nextDel;
+	std::string codigo;
+	int ciclo;
+	float mensualidad;
+	std::string observaciones;
 
 public:
     void setData() {
@@ -64,6 +59,42 @@ private:
 public:
     FixedRecordFile(string _fileName) {
         this->fileName = _fileName;
+		auto file = file.open(fileName);
+		std::string word;
+		char c;
+		int lenght, state = 0;
+		auto matric = new Matricula;
+		auto regVec = new std::vector<Matricula>;
+		while (file.get(c)) {
+			if (c == ':') {
+				lenght = std::stoi(word);
+				word.clear();
+				for (int i = 0; i < lenght; i++) {
+					file.get(c);
+					word.push_back(c);
+				}
+				if (state == 0){
+					matric->codigo = word;
+					state++;
+				}else if (state == 1){
+					matric->ciclo = std::stoi(word);
+					state++;
+				}else if (state == 2){
+					matric->ciclo = std::stof(word);
+					state++;
+				}else if (state == 3){
+					matric->observaciones = word;
+					state = 0;
+					regVec->push_back(matric);
+					matric = new Matricula;
+				}
+				word.clear();
+			}
+			else {
+				word.push_back(c);
+			}
+
+		}
     }
 
     /*
@@ -125,6 +156,18 @@ public:
             inFile.close();
         } else cout << "Could not open the file.\n";
         return numRecords;
+    }
+
+    void change_next_del_bin(int pos_obj, int pos_del)
+    {
+        fstream inFile;
+        inFile.open(this->fileName, ios::in | ios::binary);
+        if (inFile.is_open())
+        {
+            inFile.seekp(pos_obj * sizeof(pos_obj)+23, ios::beg);
+            cout<<inFile.peek();
+        }
+    
     }
 
     Alumno readRecord(int pos)
