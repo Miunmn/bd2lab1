@@ -60,6 +60,7 @@ class FixedRecordFile
 {
 private:
     string fileName;    
+    int lastDeleted = 0;
 
 public:
     FixedRecordFile(string _fileName) {
@@ -166,20 +167,27 @@ public:
     bool delete_(int pos)
     {
         auto alumno = readRecord(0);
-        int iterator_delete = alumno.nextDel;
-        int i = 0;
-        while(iterator_delete != -1)
+        if(alumno.nextDel == -2)
         {
-            cout<<"\neeeeeeeeeeeeeeeeeeeee"<<endl;
-            alumno = readRecord(iterator_delete);
-            iterator_delete = alumno.nextDel;
-            i++;
+            alumno.nextDel = pos;
+            insertRecord(alumno,0);
         }
-        alumno.nextDel = pos;
-        insertRecord(alumno,i);
-        cout<<"\n\n\n";
-        scanAll();
-        cout<<"\n\n\n";
+        else
+        {
+            int i = 0;
+            int delete_iterator = alumno.nextDel;
+            while(delete_iterator != -2)
+            {
+                alumno = readRecord(delete_iterator);
+                i = delete_iterator;
+                delete_iterator = alumno.nextDel;
+            }
+            alumno.nextDel = pos;
+            insertRecord(alumno,i);
+        }
+        auto alumno_eliminado = readRecord(pos);
+        alumno_eliminado.nextDel = -2;
+        insertRecord(alumno_eliminado,pos);
     }
 };
 
@@ -236,18 +244,18 @@ int main() {
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     FR.scanAll();
     cout<<endl<<endl<<endl;
-    cout<<"==================FR.delete_(2)==============="<<endl<<endl<<endl;
+    cout<<"==================FR.delete_(5)==============="<<endl<<endl<<endl;
     FR.delete_(2);
     cout<<endl<<endl<<endl;
     cout<<"==================FR.delete_(4)==============="<<endl<<endl<<endl;
     FR.delete_(4);
     cout<<endl<<endl<<endl;
-    cout<<"==================FR.delete_(5)==============="<<endl<<endl<<endl;
+    cout<<"==================FR.delete_(2)==============="<<endl<<endl<<endl;
     FR.delete_(5);
     cout<<endl<<endl<<endl;
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     cout<<"FR.size(): "<<FR.size();
-    //FR.scanAll();
+    FR.scanAll();
     cout<<endl<<endl<<endl;
  /* 
     for (int i = 0 ;i<8 ; i++)
