@@ -46,6 +46,8 @@ public:
 	int size;
 	int firstStringSize;
 
+	metaRegistro() :pos(0), size(0), firstStringSize(0) {}
+
 	metaRegistro(int _pos, int _size, int _firstStringSize) :pos(_pos), size(_size), firstStringSize(_firstStringSize) {}
 };
 
@@ -116,18 +118,10 @@ public:
 
 		outFile.open(fileBINName, ios::binary | ios::app);
 
-		//print_vector();
-
 		for (int i = 0; i < regVec.size(); i++)
 		{
 			writeRecord(regVec[i]);
 		}
-
-		/*
-		for(auto &matricula : regVec)
-		{
-			writeRecord(matricula);
-		}*/
 	}
 
 	std::vector<Matricula> load()
@@ -158,10 +152,6 @@ public:
 			outFile.write(&obj.observaciones[i], sizeof(char));
 		}
 		writeMetaReg(obj);
-		/*
-		cout<<"sizeof(obj): "<< sizeof(obj)<<endl;
-		cout<<"sizeof(obj.mensualidad): "<< sizeof(obj.mensualidad)<<endl;
-		cout<<"sizeof(obj.ciclo): "<< sizeof(obj.ciclo)<<endl;*/
 		outFile.close();
 	}
 
@@ -188,6 +178,10 @@ public:
 	* function to display records of file
 	*/
 	void scanAll() {
+
+		//Lee el archivo de metadata "data.txt" TODO: desabilitar writeMetaReg por el escritor del archivo.
+		readMetaFile();
+
 		ifstream inFile;
 		inFile.open(fileBINName, ios::binary);
 		//read the records
@@ -270,6 +264,39 @@ public:
 			inFile.close();
 		}
 		return obj;
+	}
+
+	void readMetaFile() {
+		ifstream file;
+		file.open("data.txt");
+		char c;
+		std::string word;
+		int state = 0;
+		auto aux = new metaRegistro;
+		while (file.get(c)) {
+			if (c == '|') {
+				if (state == 0) {
+					aux->pos = std::stoi(word);
+					state++;
+				}
+				else if (state == 1) {
+					aux->size = std::stoi(word);
+					state++;
+				}
+				else if (state == 2) {
+					aux->firstStringSize = std::stoi(word);
+					state = 0;
+				}
+				word.clear();
+			}
+			else if (c == '\n') {
+				metaRegVec.push_back(*aux);
+				aux = new metaRegistro;
+			}
+			else {
+				word.push_back(c);
+			}
+		}
 	}
 };
 
