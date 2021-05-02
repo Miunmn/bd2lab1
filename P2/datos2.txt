@@ -1,6 +1,6 @@
-11111aaaaaa     aaaaaaaaaaaaaaa     aaaaaaaaaaa    10000000 2
+11111aaaaaa     aaaaaaaaaaaaaaa     aaaaaaaaaaa    10000000-2
 22222Howard     Paredes,Zegarra     Computacion    41500.00-1
-33333Penny      Vargas,Cordero      Industrial     52550.50-2
+33333Penny      Vargas,Cordero      Industrial     52550.50-1
 44444Sheldon    Cooper,Quizpe       Mecatronica    61850.00-1
 55555Esteban    Principe,Ventosilla Computacion    51500.00-1
 66666Esteban    Villacorta,Garcia   Computacion    51500.00-1

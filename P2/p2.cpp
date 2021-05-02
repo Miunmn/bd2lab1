@@ -245,13 +245,13 @@ int main() {
     FR.scanAll();
     cout<<endl<<endl<<endl;
     cout<<"==================FR.delete_(5)==============="<<endl<<endl<<endl;
-    FR.delete_(2);
+    FR.delete_(5);
     cout<<endl<<endl<<endl;
     cout<<"==================FR.delete_(4)==============="<<endl<<endl<<endl;
     FR.delete_(4);
     cout<<endl<<endl<<endl;
     cout<<"==================FR.delete_(2)==============="<<endl<<endl<<endl;
-    FR.delete_(5);
+    FR.delete_(2);
     cout<<endl<<endl<<endl;
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     cout<<"FR.size(): "<<FR.size();
