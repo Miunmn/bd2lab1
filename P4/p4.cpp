@@ -17,6 +17,11 @@ public:
 	std::string observaciones;
 
 public:
+
+	Matricula() {}
+
+	Matricula(string co, int ci, float me, string obs) :codigo(co), ciclo(ci), mensualidad(me), observaciones(obs) {}
+
 	void setData() {
 		cout << "Codigo: \n";
 		cin >> codigo;
@@ -60,7 +65,7 @@ private:
 	std::vector<Matricula> regVec;
 	std::vector<metaRegistro> metaRegVec;
 	int last_pos = 0;
-	int last_size = 0 ;
+	int last_size = 0;
 public:
 	FixedRecordFile(string _fileName, string _fileBINName) {
 		this->fileName = _fileName;
@@ -184,7 +189,6 @@ public:
 	*/
 	void scanAll() {
 
-		//Lee el archivo de metadata "data.txt" TODO: desabilitar writeMetaReg por el escritor del archivo.
 		readMetaFile();
 
 		ifstream inFile;
@@ -200,7 +204,7 @@ public:
 			inFile.read((char *)&(obj.mensualidad), sizeof(int));
 			inFile.read(buffer2, it.size - (it.firstStringSize + sizeof(int) + sizeof(int)));
 			obj.codigo.assign(buffer, it.firstStringSize);
-			obj.observaciones.assign(buffer2);
+			obj.observaciones.assign(buffer2, it.size - (it.firstStringSize + sizeof(int) + sizeof(int)));
 			obj.showData();
 		}
 		/*while (inFile.read((char *) &obj, sizeof(obj)))
@@ -255,17 +259,17 @@ public:
 	void writeMetaDataFile(Matricula obj)
 	{
 		int pos = last_pos + last_size;
-        int size = obj.codigo.size() + sizeof(obj.ciclo) + sizeof(obj.mensualidad) + obj.observaciones.size();
-        int fss = obj.codigo.size();
-        //Escribir pos+ | + size + | + fss + \n
-        last_pos = pos;
-        last_size = size;
+		int size = obj.codigo.size() + sizeof(obj.ciclo) + sizeof(obj.mensualidad) + obj.observaciones.size();
+		int fss = obj.codigo.size();
+		//Escribir pos+ | + size + | + fss + \n
+		last_pos = pos;
+		last_size = size;
 		string line;
 		ofstream Fileobj;
 		Fileobj.open(metadataFile, ios::app);
 		if (Fileobj.is_open())
 		{
-			line  = to_string(pos)+'|'+to_string(size)+'|'+to_string(fss)+'\n';
+			line = to_string(pos) + '|' + to_string(size) + '|' + to_string(fss) + '\n';
 			Fileobj << line;
 		}
 		Fileobj.close();
@@ -321,20 +325,20 @@ public:
 					aux->size = std::stoi(word);
 					state++;
 				}
-				else if (state == 2) {
-					aux->firstStringSize = std::stoi(word);
-					state = 0;
-				}
 				word.clear();
 			}
 			else if (c == '\n') {
+				aux->firstStringSize = std::stoi(word);
+				state = 0;
 				metaRegVec.push_back(*aux);
 				aux = new metaRegistro;
+				word.clear();
 			}
 			else {
 				word.push_back(c);
 			}
 		}
+
 	}
 };
 
@@ -346,8 +350,12 @@ int main() {
 	//vector<Matricula> matriculas = FR.load();
 	//FR.print_vector();
 	FR.scanAll();
-	//cout<<"FR.size();: "<<FR.size();
-	//cout << "\n\n----------------readRecord(3)----------------\n\n";
-	//FR.readRecord(3);
+	cout << "FR.size();: " << FR.size();
+	cout << "\n\n----------------readRecord(3)----------------\n\n";
+	FR.readRecord(3);
+	cout << "\n\n----------------add()----------------\n\n";
+	FR.writeRecord(Matricula("99999", 3, 345.67, "Falta regresar 5 libros de la biblioteca."));
+	FR.scanAll();
+
 	return 0;
 }
