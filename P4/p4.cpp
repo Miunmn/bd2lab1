@@ -56,6 +56,7 @@ class FixedRecordFile
 private:
 	string fileName;
 	string fileBINName;
+	string metadataFile;
 	std::vector<Matricula> regVec;
 	std::vector<metaRegistro> metaRegVec;
 	int last_pos = 0;
@@ -64,6 +65,7 @@ public:
 	FixedRecordFile(string _fileName, string _fileBINName) {
 		this->fileName = _fileName;
 		this->fileBINName = _fileBINName;
+		this->metadataFile = "metadata.txt";
 		std::ifstream file;
 		file.open(fileName);
 		if (file.is_open())
@@ -201,10 +203,10 @@ public:
 			obj.observaciones.assign(buffer2);
 			obj.showData();
 		}
-		while (inFile.read((char *) &obj, sizeof(obj)))
+		/*while (inFile.read((char *) &obj, sizeof(obj)))
 		{
 			obj.showData();
-		}
+		}*/
 		inFile.close();
 	}
 
@@ -260,7 +262,7 @@ public:
         last_size = size;
 		string line;
 		ofstream Fileobj;
-		Fileobj.open("medata.txt", ios::app);
+		Fileobj.open(metadataFile, ios::app);
 		if (Fileobj.is_open())
 		{
 			line  = to_string(pos)+'|'+to_string(size)+'|'+to_string(fss)+'\n';
@@ -304,7 +306,7 @@ public:
 		metaRegVec.clear();
 
 		ifstream file;
-		file.open("data.txt");
+		file.open(metadataFile);
 		char c;
 		std::string word;
 		int state = 0;
