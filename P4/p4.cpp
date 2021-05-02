@@ -180,7 +180,7 @@ public:
 	void scanAll() {
 
 		//Lee el archivo de metadata "data.txt" TODO: desabilitar writeMetaReg por el escritor del archivo.
-		readMetaFile();
+		//readMetaFile();
 
 		ifstream inFile;
 		inFile.open(fileBINName, ios::binary);
@@ -248,18 +248,30 @@ public:
 
 	}
 
-	Matricula readRecord(int pos)
-	{
+	Matricula readRecord(int pos) {
+
+		//readMetaFile();
+
 		fstream inFile;
 		inFile.open(this->fileBINName, ios::in | ios::binary);
 		Matricula obj;
+		auto it = metaRegVec[pos];
 
 		if (inFile.is_open())
 		{
 			//moverse hasta la posicion del alumno
-			inFile.seekg(pos * sizeof(Matricula), ios::beg);
+			inFile.seekg(it.pos, ios::beg);
 			//leer el alumno
-			inFile.read((char *)&obj, sizeof(obj));
+			char *buffer, *buffer2;
+			buffer = new char[it.firstStringSize];
+			buffer2 = new char[it.size - (it.firstStringSize + sizeof(int) + sizeof(int))];
+			inFile.read(buffer, it.firstStringSize);
+			inFile.read((char *)&(obj.ciclo), sizeof(int));
+			inFile.read((char *)&(obj.mensualidad), sizeof(int));
+			inFile.read(buffer2, it.size - (it.firstStringSize + sizeof(int) + sizeof(int)));
+			obj.codigo.assign(buffer, it.firstStringSize);
+			obj.observaciones.assign(buffer2);
+			obj.showData();
 			//obj.showData();
 			inFile.close();
 		}
@@ -267,6 +279,9 @@ public:
 	}
 
 	void readMetaFile() {
+
+		metaRegVec.clear();
+
 		ifstream file;
 		file.open("data.txt");
 		char c;
@@ -302,12 +317,14 @@ public:
 
 
 int main() {
-	FixedRecordFile FR("datos1.txt", "datos4.bin");
+	FixedRecordFile FR("datos4.txt", "datos4.bin");
 	//FR.stackprinter(FR.load().front());
 	//FR.load().front().showData();
 	//vector<Matricula> matriculas = FR.load();
 	//FR.print_vector();
 	FR.scanAll();
 	//cout<<"FR.size();: "<<FR.size();
+	cout << "\n\n----------------readRecord(3)----------------\n\n";
+	FR.readRecord(3);
 	return 0;
 }
