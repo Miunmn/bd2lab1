@@ -68,22 +68,27 @@ public:
                     }
                     if (state == 0){
                         matric->codigo = word;
+                        //cout<<"state: "<<state<<" matric->codigo: "<<matric->codigo<<endl;
                         state++;
                     }else if (state == 1){
                         matric->ciclo = std::stoi(word);
+                        //cout<<"state: "<<state<<" matric->ciclo: "<<matric->ciclo<<endl;
                         state++;
                     }else if (state == 2){
-                        matric->ciclo = std::stof(word);
+                        matric->mensualidad = std::stof(word);
+                        //cout<<"state: "<<state<<" matric->mensualidad: "<<matric->mensualidad<<endl;
                         state++;
                     }else if (state == 3){
                         matric->observaciones = word;
+                        //cout<<"state: "<<state<<" matric->observaciones: "<<matric->observaciones<<endl;
                         state = 0;
                         regVec.push_back(*matric);
                         matric = new Matricula;
                     }
                     word.clear();
                 }
-                else {
+                else
+                {
                     word.push_back(c);
                 }
             }
@@ -96,11 +101,19 @@ public:
         ofstream outFile;
         
         outFile.open(fileBINName, ios::binary | ios::app);        
+        
+        //print_vector();
 
+        for(int i = 0 ; i < regVec.size(); i++)
+        {
+            writeRecord(regVec[i]);
+        }
+
+        /*
         for(auto &matricula : regVec)
         {
             writeRecord(matricula);
-        }
+        }*/
     }
 
     std::vector<Matricula> load()
@@ -122,7 +135,10 @@ public:
     void writeRecord(Matricula obj) {
         ofstream outFile;
         outFile.open(fileBINName, ios::binary | ios::app);        
-        outFile.write((char *) &obj, sizeof(obj));
+        outFile.write((char *) &obj, sizeof(obj));/*
+        cout<<"sizeof(obj): "<< sizeof(obj)<<endl;
+        cout<<"sizeof(obj.mensualidad): "<< sizeof(obj.mensualidad)<<endl;
+        cout<<"sizeof(obj.ciclo): "<< sizeof(obj.ciclo)<<endl;*/
         outFile.close();
     }
 
@@ -136,7 +152,7 @@ public:
         Matricula obj;
         while (inFile.read((char *) &obj, sizeof(obj)))
         {
-                obj.showData(); 
+            obj.showData(); 
         }
         inFile.close();
     }
@@ -210,8 +226,8 @@ public:
 int main() {
     FixedRecordFile FR("datos4.txt","datos4.bin");
     vector<Matricula> matriculas = FR.load();
-    FR.print_vector();
-    //FR.scanAll();
-
+    //FR.print_vector();
+    FR.scanAll();
+    cout<<"FR.size();: "<<FR.size();
     return 0;
 }

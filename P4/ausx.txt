@@ -1,0 +1,19 @@
+5:111111:46:936.5428:Atraso de pagos por 3 meses.
+5:222221:27:2003.0440:Por devolver 3 libros de la biblioteca.
+5:333331:56:865.3418:Matricula Exitosa.
+5:444441:67:1984.3218:Matricula Exitosa.
+5:555551:76:532.4318:Matricula Exitosa.
+5:666661:27:2034.4327:Atraso de pago por 2 meses.
+5:777771:76:879.9018:Cambio de carrera.
+5:888881:97:3043.3220:En riesgo academico.
+
+
+
+
+5:222221:27:2003.0440:Por devolver 3 libros de la biblioteca.
+5:333331:56:865.3418:Matricula Exitosa.
+5:444441:67:1984.3218:Matricula Exitosa.
+5:555551:76:532.4318:Matricula Exitosa.
+5:666661:27:2034.4327:Atraso de pago por 2 meses.
+5:777771:76:879.9018:Cambio de carrera.
+5:888881:97:3043.3220:En riesgo academico.
