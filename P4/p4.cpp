@@ -58,6 +58,8 @@ private:
 	string fileBINName;
 	std::vector<Matricula> regVec;
 	std::vector<metaRegistro> metaRegVec;
+	int last_pos = 0;
+	int last_size = 0 ;
 public:
 	FixedRecordFile(string _fileName, string _fileBINName) {
 		this->fileName = _fileName;
@@ -151,7 +153,8 @@ public:
 		for (int i = 0; i < obj.observaciones.size(); i++) {
 			outFile.write(&obj.observaciones[i], sizeof(char));
 		}
-		writeMetaReg(obj);
+		writeMetaDataFile(obj);
+
 		outFile.close();
 	}
 
@@ -180,7 +183,7 @@ public:
 	void scanAll() {
 
 		//Lee el archivo de metadata "data.txt" TODO: desabilitar writeMetaReg por el escritor del archivo.
-		//readMetaFile();
+		readMetaFile();
 
 		ifstream inFile;
 		inFile.open(fileBINName, ios::binary);
@@ -198,10 +201,10 @@ public:
 			obj.observaciones.assign(buffer2);
 			obj.showData();
 		}
-		/*while (inFile.read((char *) &obj, sizeof(obj)))
+		while (inFile.read((char *) &obj, sizeof(obj)))
 		{
 			obj.showData();
-		}*/
+		}
 		inFile.close();
 	}
 
@@ -247,10 +250,28 @@ public:
 		}
 
 	}
+	void writeMetaDataFile(Matricula obj)
+	{
+		int pos = last_pos + last_size;
+        int size = obj.codigo.size() + sizeof(obj.ciclo) + sizeof(obj.mensualidad) + obj.observaciones.size();
+        int fss = obj.codigo.size();
+        //Escribir pos+ | + size + | + fss + \n
+        last_pos = pos;
+        last_size = size;
+		string line;
+		ofstream Fileobj;
+		Fileobj.open("medata.txt", ios::app);
+		if (Fileobj.is_open())
+		{
+			line  = to_string(pos)+'|'+to_string(size)+'|'+to_string(fss)+'\n';
+			Fileobj << line;
+		}
+		Fileobj.close();
 
+	}
 	Matricula readRecord(int pos) {
 
-		//readMetaFile();
+		readMetaFile();
 
 		fstream inFile;
 		inFile.open(this->fileBINName, ios::in | ios::binary);
@@ -324,7 +345,7 @@ int main() {
 	//FR.print_vector();
 	FR.scanAll();
 	//cout<<"FR.size();: "<<FR.size();
-	cout << "\n\n----------------readRecord(3)----------------\n\n";
-	FR.readRecord(3);
+	//cout << "\n\n----------------readRecord(3)----------------\n\n";
+	//FR.readRecord(3);
 	return 0;
 }
