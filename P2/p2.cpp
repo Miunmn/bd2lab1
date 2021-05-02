@@ -60,7 +60,6 @@ class FixedRecordFile
 {
 private:
     string fileName;    
-    int lastDeleted = 0;
 
 public:
     FixedRecordFile(string _fileName) {
@@ -85,26 +84,20 @@ public:
         inFile.open(fileName, ios::binary);
         //read the records
         Alumno obj;
-        int i = 1;
-        //auto alumno = readRecord(0);
-        //int iterator_delete = alumno.nextDel;
         while (inFile.read((char *) &obj, sizeof(obj)))
         {
-            obj.showData(); 
-            /*
-            if( i== -1 || i!=iterator_delete)
+            if(obj.nextDel == -1)
             {
-                obj.showData(); 
+                obj.showData();
             }
-            else
-            {
-                iterator_delete = obj.nextDel;
-            }
-            i++;*/
         }
         inFile.close();
     }
 
+    std::vector<Alumno> load()
+    {
+        
+    }
     /*
     * function to insert a record
     */
@@ -132,18 +125,6 @@ public:
             inFile.close();
         } else cout << "Could not open the file.\n";
         return numRecords;
-    }
-
-    void change_next_del_bin(int pos_obj, int pos_del)
-    {
-        fstream inFile;
-        inFile.open(this->fileName, ios::in | ios::binary);
-        if (inFile.is_open())
-        {
-            inFile.seekp(pos_obj * sizeof(pos_obj)+23, ios::beg);
-            cout<<inFile.peek();
-        }
-    
     }
 
     Alumno readRecord(int pos)
@@ -241,9 +222,12 @@ int main() {
     {
         FR.writeRecord(alumno_);
     }
+
+
+
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     FR.scanAll();
-    cout<<endl<<endl<<endl;
+    /*cout<<endl<<endl<<endl;
     cout<<"==================FR.delete_(5)==============="<<endl<<endl<<endl;
     FR.delete_(5);
     cout<<endl<<endl<<endl;
@@ -255,21 +239,7 @@ int main() {
     cout<<endl<<endl<<endl;
     cout<<"===================FR.scanAll()==============="<<endl<<endl<<endl;
     cout<<"FR.size(): "<<FR.size();
-    FR.scanAll();
+    FR.scanAll();*/
     cout<<endl<<endl<<endl;
- /* 
-    for (int i = 0 ;i<8 ; i++)
-    {
-        Alumno alumno1;
-        alumno1.setData();
-        FR.writeRecord(alumno1);
-        std::cout<<"\n\n\n\n";
-    }*/
-    //FR.scanAll();
-    /*
-    Alumno obj = FR.readRecord(0); 
-    std::cout<<"\n\n\n\n";
-    obj.showData();
-    */
     return 0;
 }

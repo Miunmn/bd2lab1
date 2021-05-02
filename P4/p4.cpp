@@ -127,18 +127,6 @@ public:
         return numRecords;
     }
 
-    void change_next_del_bin(int pos_obj, int pos_del)
-    {
-        fstream inFile;
-        inFile.open(this->fileName, ios::in | ios::binary);
-        if (inFile.is_open())
-        {
-            inFile.seekp(pos_obj * sizeof(pos_obj)+23, ios::beg);
-            cout<<inFile.peek();
-        }
-    
-    }
-
     Alumno readRecord(int pos)
     {
         fstream inFile;
