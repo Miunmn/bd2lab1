@@ -1,2 +1,2 @@
 # bd2lab1
-Binary file and .txt file organization
+Binary and text file organization
